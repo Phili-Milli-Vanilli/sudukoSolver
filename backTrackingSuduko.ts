@@ -1,9 +1,5 @@
 const solveSuduko = (sudukoTable: number[][]) => {
-
-    console.log('Solving..')
-
     const emptyCell = findEmptyCell(sudukoTable);
-    console.log(emptyCell);
     if(!emptyCell){
         console.log('Suduko Gut!')
         return true;
@@ -15,12 +11,12 @@ const solveSuduko = (sudukoTable: number[][]) => {
         if(isValid(sudukoTable, row, col, num)){
             sudukoTable[row][col] = num;
             if(solveSuduko(sudukoTable)){
-                return true;
+                return sudukoTable;
             }
             sudukoTable[row][col] = 0;
         }
     }
-    return false;
+    return;
 } 
 
 const findEmptyCell = (sudukoTable: number[][]) => {
@@ -56,7 +52,7 @@ const isValid = (sudukoTable: number[][], row: number, col: number, num: number)
             }
         }
     }
-    return false;
+    return true;
 }
 
 const sudokuBoard = [
@@ -71,4 +67,17 @@ const sudokuBoard = [
     [0, 0, 0, 0, 8, 0, 0, 7, 9]
 ];
 
-console.log(solveSuduko(sudokuBoard));
+const unsolvableSudoku = [
+    [5, 3, 0, 0, 7, 0, 0, 0, 0],
+    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+    [0, 0, 0, 0, 8, 0, 0, 7, 7]  // Beachte die ungültige 7 in dieser Zeile
+];
+
+const solvedSuduko = solveSuduko(sudokuBoard);
+console.log(solvedSuduko)
