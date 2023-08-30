@@ -29,7 +29,7 @@ const findEmptyCell = (sudukoTable: number[][]) => {
     return null;
 }
 
-const isValid = (sudukoTable: number[][], row: number, col: number, num: number) => {
+export const isValid = (sudukoTable: number[][], row: number, col: number, num: number) => {
     for(let i = 0; i < 9; i++){
         if(sudukoTable[row][i] === num){
             return false;
@@ -83,7 +83,7 @@ const unsolvableSudoku = [
 // const solvedSuduko = solveSudoku(sudokuBoard);
 // console.log(solvedSuduko)
 
-const generateSudoku = () => {
+export const generateSudoku = () => {
     // Erstelle eine leere 9x9-Matrix
     const sudoku = Array.from({ length: 9 }, () => Array(9).fill(0));
 
@@ -112,7 +112,7 @@ const generateSudoku = () => {
     return sudoku;
 }
 
-function printSudoku(sudoku: number[][] | undefined | true) {
+export function printSudoku(sudoku: number[][] | undefined | true) {
     if(sudoku === undefined || sudoku === true){
         console.log('kein printbares Array')
         console.log(sudoku)
