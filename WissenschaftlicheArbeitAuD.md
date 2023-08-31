@@ -10,10 +10,10 @@
 
 
 ## Thema
-Die Anwendung von Brute-Force und Backtracking Algorithmen auf Rätselspiele wie Sudoku und das Labyrinth.
+Die Anwendung von Brute-Force und Backtracking Algorithmen auf Rätselspiele wie Sudoku und dem n-Damen-Problem
 
 ## Fragestellung
-Vergleich der Effizienz von Brute-Force und Backtracking Algorithmen bei der Lösung von Rätselspielen: Eine Fallstudie anhand von Sudoku und dem Labyrinth
+Vergleich der Effizienz von Brute-Force und Backtracking Algorithmen bei der Lösung von Rätselspielen: Eine Fallstudie anhand von Sudoku und dem n-Damen-Problem
 
 ## Aspekte der Arbeit
 1. Untersuchung der Funktionsweise von Brute-Force und Backtracking Algorithmen und Anwendbarkeit auf Sudoku und Labyrinth
