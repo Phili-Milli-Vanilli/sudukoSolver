@@ -18,6 +18,20 @@ export const sudokuSolver = (sudukoTable: number[][]) => {
     return;
 } 
 
+export const isSudokuSolved = (sudoku: number[][]): boolean => {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (sudoku[i][j] === 0) {
+                return false; // Es gibt leere Zellen, das Sudoku ist nicht gelöst
+            }
+            if (!isValid(sudoku, i, j, sudoku[i][j])) {
+                return false; // Eine Zahl verletzt die Sudoku-Regeln
+            }
+        }
+    }
+    return true; // Sudoku ist gelöst
+}
+
 export const findEmptyCell = (sudukoTable: number[][]) => {
     for(let row = 0; row < 9; row++){
         for(let col = 0; col < 9; col++){
@@ -62,7 +76,7 @@ export const generateSudoku = () => {
     sudokuSolver(sudoku);
 
     // Entferne einige Zahlen, um das Rätsel zu erstellen
-    const difficulty = 50;  // Anzahl der Zahlen, die entfernt werden
+    const difficulty = 80;  // Anzahl der Zahlen, die entfernt werden
     for (let i = 0; i < difficulty; i++) {
         let row, col;
         do {

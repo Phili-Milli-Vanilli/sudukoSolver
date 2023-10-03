@@ -61,26 +61,33 @@ const unsolvedSudoku2 = [
     [7, 2, 9, 1, 3, 6, 0, 8, 4]
 ]
 
-const generated = HelperFunctions.generateSudoku()
+let timeUsed: number[] = []; 
 
+for(let i=0; i<100; i++){
+    const generated = HelperFunctions.generateSudoku()
+    HelperFunctions.printSudoku(generated)
 
-const startTime = process.hrtime();
-const solvedSudoku = solveSudoku(generated);
-const endTime = process.hrtime(startTime);
-const executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
-
-console.log('///Anfang BruteForce///')
-
-console.log('Ungelöste Sudoku')
-HelperFunctions.printSudoku(generated)
-console.log('----------------------')
-console.log('----------------------')
-if (solvedSudoku) {
-    console.log("Das Sudoku wurde gelöst.")
-    HelperFunctions.printSudoku(solvedSudoku);
-} else {
-    console.log("Das Sudoku konnte nicht gelöst werden.");
+    const startTime = process.hrtime();
+    const solvedSudoku = solveSudoku(generated);
+    const endTime = process.hrtime(startTime);
+    const executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
+    timeUsed[i] = executionTimeInMs;
+    
 }
-//Measurement
-console.log(`Execution time: ${executionTimeInMs} ms`);
-console.log('///Ende BruteForce///')
+console.log(timeUsed)
+
+// console.log('///Anfang BruteForce///')
+
+// console.log('Ungelöste Sudoku')
+// HelperFunctions.printSudoku(generated)
+// console.log('----------------------')
+// console.log('----------------------')
+// if (solvedSudoku) {
+//     console.log("Das Sudoku wurde gelöst.")
+//     HelperFunctions.printSudoku(solvedSudoku);
+// } else {
+//     console.log("Das Sudoku konnte nicht gelöst werden.");
+// }
+// //Measurement
+// console.log(`Execution time: ${executionTimeInMs} ms`);
+// console.log('///Ende BruteForce///')

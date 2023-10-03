@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.printSudoku = exports.generateSudoku = exports.isValid = exports.findEmptyCell = exports.sudokuSolver = void 0;
+exports.printSudoku = exports.generateSudoku = exports.isValid = exports.findEmptyCell = exports.isSudokuSolved = exports.sudokuSolver = void 0;
 var sudokuSolver = function (sudukoTable) {
     var emptyCell = (0, exports.findEmptyCell)(sudukoTable);
     if (!emptyCell) {
@@ -19,6 +19,20 @@ var sudokuSolver = function (sudukoTable) {
     return;
 };
 exports.sudokuSolver = sudokuSolver;
+var isSudokuSolved = function (sudoku) {
+    for (var i = 0; i < 9; i++) {
+        for (var j = 0; j < 9; j++) {
+            if (sudoku[i][j] === 0) {
+                return false; // Es gibt leere Zellen, das Sudoku ist nicht gelöst
+            }
+            if (!(0, exports.isValid)(sudoku, i, j, sudoku[i][j])) {
+                return false; // Eine Zahl verletzt die Sudoku-Regeln
+            }
+        }
+    }
+    return true; // Sudoku ist gelöst
+};
+exports.isSudokuSolved = isSudokuSolved;
 var findEmptyCell = function (sudukoTable) {
     for (var row = 0; row < 9; row++) {
         for (var col = 0; col < 9; col++) {
@@ -59,7 +73,7 @@ var generateSudoku = function () {
     // Löse das Sudoku
     (0, exports.sudokuSolver)(sudoku);
     // Entferne einige Zahlen, um das Rätsel zu erstellen
-    var difficulty = 50; // Anzahl der Zahlen, die entfernt werden
+    var difficulty = 80; // Anzahl der Zahlen, die entfernt werden
     for (var i = 0; i < difficulty; i++) {
         var row = void 0, col = void 0;
         do {

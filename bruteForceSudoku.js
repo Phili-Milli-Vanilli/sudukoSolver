@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var HelperFunctions = require("./helperFunctions");
-function bruteForceSudoku(sudoku, row, col) {
+var bruteForceSudoku = function (sudoku, row, col) {
     if (row === void 0) { row = 0; }
     if (col === void 0) { col = 0; }
     if (row === 9) {
-        return true; // Sudoku ist gelöst
+        return true;
     }
     var nextRow = col === 8 ? row + 1 : row;
     var nextCol = (col + 1) % 9;
@@ -18,12 +18,12 @@ function bruteForceSudoku(sudoku, row, col) {
             if (bruteForceSudoku(sudoku, nextRow, nextCol)) {
                 return true;
             }
-            sudoku[row][col] = 0; // Backtrack
+            sudoku[row][col] = 0;
         }
     }
     return false;
-}
-function solveSudoku(sudoku) {
+};
+var solveSudoku = function (sudoku) {
     var solvedSudoku = JSON.parse(JSON.stringify(sudoku)); // Eine Kopie des ursprünglichen Sudoku-Gitters
     if (bruteForceSudoku(solvedSudoku)) {
         return solvedSudoku;
@@ -31,7 +31,7 @@ function solveSudoku(sudoku) {
     else {
         return null;
     }
-}
+};
 // Beispielmodellierung eines 9x9-Sudoku als 2D-Array
 var unsolvableSudoku = [
     [1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -55,23 +55,28 @@ var unsolvedSudoku2 = [
     [8, 3, 1, 7, 4, 2, 9, 6, 5],
     [7, 2, 9, 1, 3, 6, 0, 8, 4]
 ];
-var generated = HelperFunctions.generateSudoku();
-var startTime = process.hrtime();
-var solvedSudoku = solveSudoku(generated);
-var endTime = process.hrtime(startTime);
-var executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
-console.log('///Anfang BruteForce///');
-console.log('Ungelöste Sudoku');
-HelperFunctions.printSudoku(generated);
-console.log('----------------------');
-console.log('----------------------');
-if (solvedSudoku) {
-    console.log("Das Sudoku wurde gelöst.");
-    HelperFunctions.printSudoku(solvedSudoku);
+var timeUsed = [];
+for (var i = 0; i < 100; i++) {
+    var generated = HelperFunctions.generateSudoku();
+    HelperFunctions.printSudoku(generated);
+    var startTime = process.hrtime();
+    var solvedSudoku = solveSudoku(generated);
+    var endTime = process.hrtime(startTime);
+    var executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
+    timeUsed[i] = executionTimeInMs;
 }
-else {
-    console.log("Das Sudoku konnte nicht gelöst werden.");
-}
-//Measurement
-console.log("Execution time: ".concat(executionTimeInMs, " ms"));
-console.log('///Ende BruteForce///');
+console.log(timeUsed);
+// console.log('///Anfang BruteForce///')
+// console.log('Ungelöste Sudoku')
+// HelperFunctions.printSudoku(generated)
+// console.log('----------------------')
+// console.log('----------------------')
+// if (solvedSudoku) {
+//     console.log("Das Sudoku wurde gelöst.")
+//     HelperFunctions.printSudoku(solvedSudoku);
+// } else {
+//     console.log("Das Sudoku konnte nicht gelöst werden.");
+// }
+// //Measurement
+// console.log(`Execution time: ${executionTimeInMs} ms`);
+// console.log('///Ende BruteForce///')

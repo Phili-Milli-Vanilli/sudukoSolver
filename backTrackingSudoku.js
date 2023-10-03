@@ -40,17 +40,28 @@ var unsolvableSudoku = [
     [6, 4, 2, 9, 7, 8, 0, 3, 1],
     [9, 7, 8, 5, 3, 1, 6, 4, 2] // Beachte die ungültige 7 in dieser Zeile
 ];
-var generated = HelperFunctions.generateSudoku();
-console.log('///Anfang Backtracking///');
-HelperFunctions.printSudoku(generated);
-console.log('----------------------');
-console.log('----------------------');
-var startTime = process.hrtime();
-//Start Process
-var solvedSudoku = sudokuSolver(generated);
-var endTime = process.hrtime(startTime);
-var executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
-HelperFunctions.printSudoku(solvedSudoku);
-//Measurement
-console.log("Execution time: ".concat(executionTimeInMs, " ms"));
-console.log('///Ende Backtracking///');
+var timeUsed = [];
+for (var i = 0; i < 100; i++) {
+    var generated = HelperFunctions.generateSudoku();
+    HelperFunctions.printSudoku(generated);
+    var startTime = process.hrtime();
+    var solvedSudoku = sudokuSolver(generated);
+    var endTime = process.hrtime(startTime);
+    var executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
+    timeUsed[i] = executionTimeInMs;
+}
+console.log(timeUsed);
+// const generated = HelperFunctions.generateSudoku()
+// console.log('///Anfang Backtracking///')
+// HelperFunctions.printSudoku(generated)
+// console.log('----------------------')
+// console.log('----------------------')
+// const startTime = process.hrtime();
+// //Start Process
+// const solvedSudoku = sudokuSolver(generated)
+// const endTime = process.hrtime(startTime);
+// const executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
+// HelperFunctions.printSudoku(solvedSudoku)
+// //Measurement
+// console.log(`Execution time: ${executionTimeInMs} ms`);
+// console.log('///Ende Backtracking///')
