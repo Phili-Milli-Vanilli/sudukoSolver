@@ -5,13 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "backtracking": "ts-node-dev ./backTrackingSudoku.ts",
-    "bruteforce": "ts-node-dev ./bruteForceSudoku.ts"
+    "compile": "concurrently -n \"Compile\" -c \"blue.bold\" \"tsc backTrackingSudoku.ts && tsc bruteForceSudoku.ts && tsc helperFunctions.ts\"",
+    "backtracking": "concurrently -n \"Run\" -c \"green.bold\" \"node ./backTrackingSudoku.js\"",
+    "bruteforce": "concurrently -n \"Run\" -c \"green.bold\" \"node ./bruteForceSudoku.js\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1"
   }
 }

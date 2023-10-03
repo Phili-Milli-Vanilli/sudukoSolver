@@ -1,61 +1,50 @@
-const solveSuduko = function (sudukoTable) {
-    var emptyCell = findEmptyCell(sudukoTable);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var HelperFunctions = require("./helperFunctions");
+var sudokuSolver = function (sudukoTable) {
+    var emptyCell = HelperFunctions.findEmptyCell(sudukoTable);
     if (!emptyCell) {
         return true;
     }
     var row = emptyCell[0], col = emptyCell[1];
     for (var num = 1; num <= 9; num++) {
-        if (isValid(sudukoTable, row, col, num)) {
+        if (HelperFunctions.isValid(sudukoTable, row, col, num)) {
             sudukoTable[row][col] = num;
-            if (solveSuduko(sudukoTable)) {
-                return console.log(true);
+            if (sudokuSolver(sudukoTable)) {
+                return sudukoTable;
             }
             sudukoTable[row][col] = 0;
         }
     }
-    return false;
+    return;
 };
-const findEmptyCell = function (sudukoTable) {
-    for (var row = 0; row < 9; row++) {
-        for (var col = 0; col < 9; col++) {
-            if (sudukoTable[row][col] === 0) {
-                return [row, col];
-            }
-        }
-    }
-    return null;
-};
-const isValid = function (sudukoTable, row, col, num) {
-    for (var i = 0; i < 9; i++) {
-        if (sudukoTable[row][i] === num) {
-            return false;
-        }
-    }
-    for (var i = 0; i < 9; i++) {
-        if (sudukoTable[i][col] === num) {
-            return false;
-        }
-    }
-    var startRow = Math.floor(row / 3) * 3;
-    var startCol = Math.floor(col / 3) * 3;
-    for (var i = startRow; i < startRow + 3; i++) {
-        for (var j = startCol; j < startCol + 3; j++) {
-            if (sudukoTable[i][j] === num) {
-                return false;
-            }
-        }
-    }
-    return false;
-};
-const sudokuBoard = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9]
+var sudokuBoard = [
+    [1, 6, 3, 8, 2, 5, 7, 0, 9],
+    [9, 5, 8, 6, 7, 4, 0, 1, 3],
+    [2, 0, 4, 3, 1, 9, 8, 5, 6],
+    [4, 1, 7, 5, 0, 8, 0, 9, 2],
+    [0, 8, 5, 2, 9, 3, 4, 7, 1],
+    [3, 9, 2, 0, 7, 0, 5, 6, 8],
+    [5, 0, 6, 9, 8, 7, 1, 3, 2],
+    [8, 3, 1, 7, 4, 2, 9, 6, 5],
+    [7, 2, 9, 1, 3, 6, 0, 8, 4]
 ];
-solveSuduko(sudokuBoard);
+var unsolvableSudoku = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [4, 5, 6, 7, 8, 9, 1, 2, 3],
+    [7, 8, 9, 1, 2, 3, 4, 5, 6],
+    [2, 1, 4, 3, 6, 5, 8, 9, 7],
+    [3, 6, 5, 8, 9, 7, 2, 1, 4],
+    [8, 9, 7, 2, 1, 4, 3, 6, 5],
+    [5, 3, 1, 6, 4, 2, 9, 7, 8],
+    [6, 4, 2, 9, 7, 8, 0, 3, 1],
+    [9, 7, 8, 5, 3, 1, 6, 4, 2] // Beachte die ungültige 7 in dieser Zeile
+];
+// const solvedSuduko = solveSudoku(sudokuBoard);
+// console.log(solvedSuduko)
+console.log('///Anfang Backtracking///');
+HelperFunctions.printSudoku(unsolvableSudoku);
+console.log('----------------------');
+console.log('----------------------');
+HelperFunctions.printSudoku(sudokuSolver(unsolvableSudoku));
+console.log('///Ende Backtracking///');

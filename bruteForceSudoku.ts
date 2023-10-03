@@ -1,72 +1,9 @@
-function isSudokuSolved(sudoku: number[][]) {
-    for (let row = 0; row < 9; row++) {
-        for (let col = 0; col < 9; col++) {
-            if (sudoku[row][col] === 0) {
-                return false;  // Es gibt leere Felder
-            }
-            if (!isValid(sudoku, row, col, sudoku[row][col])) {
-                return false;  // Eine Zahl verletzt die Sudoku-Regeln
-            }
-        }
-    }
-    return true;  // Sudoku ist gelöst
-}
+import * as HelperFunctions from './helperFunctions'
 
-export const isValid = (sudukoTable: number[][], row: number, col: number, num: number) => {
-    for(let i = 0; i < 9; i++){
-        if(sudukoTable[row][i] === num){
-            return false;
-        }
-    }
-
-    for(let i = 0; i < 9; i++){
-        if(sudukoTable[i][col] === num){
-            return false;
-        }
-    }
-
-    const startRow = Math.floor(row / 3) * 3;
-    const startCol = Math.floor(col / 3) * 3;
-    for(let i = startRow; i < startRow + 3; i++){
-        for(let j = startCol; j < startCol + 3; j++){
-            if(sudukoTable[i][j] === num){
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-export function printSudoku(sudoku: number[][] | undefined | true) {
-    if(sudoku === undefined || sudoku === true){
-        console.log('kein printbares Array')
-        console.log(sudoku)
-        return
-    }
-    for (let i = 0; i < 9; i++) {
-        if (i % 3 === 0 && i !== 0) {
-            console.log("- - - - - - - - - - -");
-        }
-        for (let j = 0; j < 9; j++) {
-            if (j % 3 === 0 && j !== 0) {
-                process.stdout.write("| ");
-            }
-            if (j === 8) {
-                console.log(sudoku[i][j]);
-            } else {
-                process.stdout.write(sudoku[i][j] === 0 ? "  " : sudoku[i][j] + " ");
-            }
-        }
-    }
-}
 
 function bruteForceSudoku(sudoku: number[][], row = 0, col = 0) {
     if (row === 9) {
-        if (isSudokuSolved(sudoku)) {
-            return true;  // Sudoku ist gelöst
-        }
-        console.log('1')
-        return false;  // Sudoku ist nicht gelöst
+        return true;  // Sudoku ist gelöst
     }
 
     const nextRow = col === 8 ? row + 1 : row;
@@ -77,7 +14,7 @@ function bruteForceSudoku(sudoku: number[][], row = 0, col = 0) {
     }
 
     for (let num = 1; num <= 9; num++) {
-        if (isValid(sudoku, row, col, num)) {
+        if (HelperFunctions.isValid(sudoku, row, col, num)) {
             sudoku[row][col] = num;
             if (bruteForceSudoku(sudoku, nextRow, nextCol)) {
                 return true;
@@ -89,17 +26,27 @@ function bruteForceSudoku(sudoku: number[][], row = 0, col = 0) {
     return false;
 }
 
+function solveSudoku(sudoku: number[][]) {
+    let solvedSudoku = JSON.parse(JSON.stringify(sudoku)); // Eine Kopie des ursprünglichen Sudoku-Gitters
+
+    if (bruteForceSudoku(solvedSudoku)) {
+        return solvedSudoku;
+    } else {
+        return null;
+    }
+}
+
 // Beispielmodellierung eines 9x9-Sudoku als 2D-Array
-const unsolvedSudoku = [
-    [0, 0, 3, 0, 2, 0, 0, 0, 0],
-    [0, 0, 0, 6, 0, 0, 0, 0, 3],
-    [0, 7, 4, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 8, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0]
+const unsolvableSudoku = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    [4, 5, 6, 7, 8, 9, 1, 2, 3],
+    [7, 8, 9, 1, 2, 3, 4, 5, 6],
+    [2, 1, 4, 3, 6, 5, 8, 9, 7],
+    [3, 6, 5, 8, 9, 7, 2, 1, 4],
+    [8, 9, 7, 2, 1, 4, 3, 6, 5],
+    [5, 3, 1, 6, 4, 2, 9, 7, 8],
+    [6, 4, 2, 9, 7, 8, 0, 3, 1],
+    [9, 7, 8, 5, 3, 1, 6, 4, 2]  // Beachte die ungültige 7 in dieser Zeile
 ];
 
 const unsolvedSudoku2 = [
@@ -114,7 +61,25 @@ const unsolvedSudoku2 = [
     [7, 2, 9, 1, 3, 6, 0, 8, 4]
 ]
 
-bruteForceSudoku(unsolvedSudoku);
+const generated = HelperFunctions.generateSudoku()
 
-console.log("Gelöstes Sudoku:");
-printSudoku(unsolvedSudoku)
+
+const startTime = process.hrtime();
+const solvedSudoku = solveSudoku(unsolvableSudoku);
+const endTime = process.hrtime(startTime);
+const executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
+
+console.log('///Anfang BruteForce///')
+
+console.log('Ungelöste Sudoku')
+HelperFunctions.printSudoku(unsolvableSudoku)
+console.log('----------------------')
+console.log('----------------------')
+if (solvedSudoku) {
+    console.log("Das Sudoku wurde gelöst.")
+    HelperFunctions.printSudoku(solvedSudoku);
+} else {
+    console.log("Das Sudoku konnte nicht gelöst werden.");
+}
+console.log(`Execution time: ${executionTimeInMs} ms`);
+console.log('///Ende BruteForce///')
