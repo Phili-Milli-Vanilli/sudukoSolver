@@ -1,9 +1,9 @@
 import * as HelperFunctions from './helperFunctions'
 
 
-function bruteForceSudoku(sudoku: number[][], row = 0, col = 0) {
+const bruteForceSudoku = (sudoku: number[][], row = 0, col = 0): boolean => {
     if (row === 9) {
-        return true;  // Sudoku ist gelöst
+        return true;
     }
 
     const nextRow = col === 8 ? row + 1 : row;
@@ -19,14 +19,14 @@ function bruteForceSudoku(sudoku: number[][], row = 0, col = 0) {
             if (bruteForceSudoku(sudoku, nextRow, nextCol)) {
                 return true;
             }
-            sudoku[row][col] = 0;  // Backtrack
+            sudoku[row][col] = 0;
         }
     }
 
     return false;
 }
 
-function solveSudoku(sudoku: number[][]) {
+const solveSudoku = (sudoku: number[][]) => {
     let solvedSudoku = JSON.parse(JSON.stringify(sudoku)); // Eine Kopie des ursprünglichen Sudoku-Gitters
 
     if (bruteForceSudoku(solvedSudoku)) {
@@ -65,14 +65,14 @@ const generated = HelperFunctions.generateSudoku()
 
 
 const startTime = process.hrtime();
-const solvedSudoku = solveSudoku(unsolvableSudoku);
+const solvedSudoku = solveSudoku(generated);
 const endTime = process.hrtime(startTime);
 const executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
 
 console.log('///Anfang BruteForce///')
 
 console.log('Ungelöste Sudoku')
-HelperFunctions.printSudoku(unsolvableSudoku)
+HelperFunctions.printSudoku(generated)
 console.log('----------------------')
 console.log('----------------------')
 if (solvedSudoku) {
@@ -81,5 +81,6 @@ if (solvedSudoku) {
 } else {
     console.log("Das Sudoku konnte nicht gelöst werden.");
 }
+//Measurement
 console.log(`Execution time: ${executionTimeInMs} ms`);
 console.log('///Ende BruteForce///')

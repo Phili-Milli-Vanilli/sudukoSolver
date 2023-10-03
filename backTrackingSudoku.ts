@@ -46,12 +46,23 @@ const unsolvableSudoku = [
 
 
 
-// const solvedSuduko = solveSudoku(sudokuBoard);
-// console.log(solvedSuduko)
+const generated = HelperFunctions.generateSudoku()
 
 console.log('///Anfang Backtracking///')
-HelperFunctions.printSudoku(unsolvableSudoku)
+
+HelperFunctions.printSudoku(generated)
+
 console.log('----------------------')
 console.log('----------------------')
-HelperFunctions.printSudoku(sudokuSolver(unsolvableSudoku))
+
+const startTime = process.hrtime();
+//Start Process
+const solvedSudoku = sudokuSolver(generated)
+
+const endTime = process.hrtime(startTime);
+const executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
+
+HelperFunctions.printSudoku(solvedSudoku)
+//Measurement
+console.log(`Execution time: ${executionTimeInMs} ms`);
 console.log('///Ende Backtracking///')

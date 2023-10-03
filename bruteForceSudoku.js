@@ -57,12 +57,12 @@ var unsolvedSudoku2 = [
 ];
 var generated = HelperFunctions.generateSudoku();
 var startTime = process.hrtime();
-var solvedSudoku = solveSudoku(unsolvableSudoku);
+var solvedSudoku = solveSudoku(generated);
 var endTime = process.hrtime(startTime);
 var executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
 console.log('///Anfang BruteForce///');
 console.log('Ungelöste Sudoku');
-HelperFunctions.printSudoku(unsolvableSudoku);
+HelperFunctions.printSudoku(generated);
 console.log('----------------------');
 console.log('----------------------');
 if (solvedSudoku) {
@@ -72,5 +72,6 @@ if (solvedSudoku) {
 else {
     console.log("Das Sudoku konnte nicht gelöst werden.");
 }
+//Measurement
 console.log("Execution time: ".concat(executionTimeInMs, " ms"));
 console.log('///Ende BruteForce///');
