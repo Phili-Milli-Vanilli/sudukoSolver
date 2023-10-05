@@ -44,17 +44,16 @@ const unsolvableSudoku = [
     [9, 7, 8, 5, 3, 1, 6, 4, 2]  // Beachte die ungültige 7 in dieser Zeile
 ];
 
-let timeUsed: number[] = []; 
+let timeUsed = 0; 
 
 for(let i=0; i<100; i++){
     const generated = HelperFunctions.generateSudoku()
-    HelperFunctions.printSudoku(generated)
 
     const startTime = process.hrtime();
     const solvedSudoku = sudokuSolver(generated);
     const endTime = process.hrtime(startTime);
     const executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
-    timeUsed[i] = executionTimeInMs;
+    timeUsed += executionTimeInMs / 100;
     
 }
 console.log(timeUsed)

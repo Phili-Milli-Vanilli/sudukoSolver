@@ -73,7 +73,7 @@ var generateSudoku = function () {
     // Löse das Sudoku
     (0, exports.sudokuSolver)(sudoku);
     // Entferne einige Zahlen, um das Rätsel zu erstellen
-    var difficulty = 80; // Anzahl der Zahlen, die entfernt werden
+    var difficulty = 55; // Anzahl der Zahlen, die entfernt werden
     for (var i = 0; i < difficulty; i++) {
         var row = void 0, col = void 0;
         do {

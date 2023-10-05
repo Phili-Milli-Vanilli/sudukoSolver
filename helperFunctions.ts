@@ -76,7 +76,7 @@ export const generateSudoku = () => {
     sudokuSolver(sudoku);
 
     // Entferne einige Zahlen, um das Rätsel zu erstellen
-    const difficulty = 80;  // Anzahl der Zahlen, die entfernt werden
+    const difficulty = 55;  // Anzahl der Zahlen, die entfernt werden
     for (let i = 0; i < difficulty; i++) {
         let row, col;
         do {

@@ -61,17 +61,15 @@ const unsolvedSudoku2 = [
     [7, 2, 9, 1, 3, 6, 0, 8, 4]
 ]
 
-let timeUsed: number[] = []; 
+let timeUsed = 0;
 
 for(let i=0; i<100; i++){
     const generated = HelperFunctions.generateSudoku()
-    HelperFunctions.printSudoku(generated)
-
     const startTime = process.hrtime();
     const solvedSudoku = solveSudoku(generated);
     const endTime = process.hrtime(startTime);
     const executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
-    timeUsed[i] = executionTimeInMs;
+    timeUsed += executionTimeInMs / 100;
     
 }
 console.log(timeUsed)

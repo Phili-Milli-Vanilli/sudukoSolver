@@ -55,15 +55,14 @@ var unsolvedSudoku2 = [
     [8, 3, 1, 7, 4, 2, 9, 6, 5],
     [7, 2, 9, 1, 3, 6, 0, 8, 4]
 ];
-var timeUsed = [];
+var timeUsed = 0;
 for (var i = 0; i < 100; i++) {
     var generated = HelperFunctions.generateSudoku();
-    HelperFunctions.printSudoku(generated);
     var startTime = process.hrtime();
     var solvedSudoku = solveSudoku(generated);
     var endTime = process.hrtime(startTime);
     var executionTimeInMs = (endTime[0] * 1e9 + endTime[1]) / 1e6;
-    timeUsed[i] = executionTimeInMs;
+    timeUsed += executionTimeInMs / 100;
 }
 console.log(timeUsed);
 // console.log('///Anfang BruteForce///')
